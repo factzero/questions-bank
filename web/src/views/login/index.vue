@@ -89,51 +89,62 @@
         >登 录
       </el-button>
     </el-form>
-
   </div>
 </template>
 
 <script lang="ts" setup>
-import {reactive, toRefs} from 'vue';
+import { reactive, toRefs } from "vue";
 
 // 组件依赖
-import SvgIcon from '@/components/SvgIcon/index.vue';
+import SvgIcon from "@/components/SvgIcon/index.vue";
 
+// API依赖
+import { getCaptcha } from "@/api/login";
 
 const state = reactive({
   loginForm: {
-    username: 'admin',
-    password: '123456',
+    username: "admin",
+    password: "123456",
   },
   loginRules: {
-    username: [{ required: true, trigger: 'blur' }],
-    password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+    username: [{ required: true, trigger: "blur" }],
+    password: [
+      { required: true, trigger: "blur", validator: validatePassword },
+    ],
   },
-  passwordType: 'password',
+  passwordType: "password",
+  captchaBase64: "",
 });
 
 function validatePassword(rule: any, value: any, callback: any) {
   if (value.length < 6) {
-    callback(new Error('The password can not be less than 6 digits'));
+    callback(new Error("The password can not be less than 6 digits"));
   } else {
     callback();
   }
 }
 
-const {
-  loginForm,
-  loginRules,
-  passwordType,
-} = toRefs(state);
+const { loginForm, loginRules, passwordType, captchaBase64 } = toRefs(state);
 
 function showPwd() {
-  if (state.passwordType === 'password') {
-    state.passwordType = '';
+  if (state.passwordType === "password") {
+    state.passwordType = "";
   } else {
-    state.passwordType = 'password';
+    state.passwordType = "password";
   }
+  handleCaptchaGenerate();
 }
 
+/**
+ * 获取验证码
+ */
+function handleCaptchaGenerate() {
+  getCaptcha().then(({ data }) => {
+    const { img, uuid } = data;
+    state.captchaBase64 = img;
+    console.log(data);
+  });
+}
 </script>
 
 <style lang="scss">
