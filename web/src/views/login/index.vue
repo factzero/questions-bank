@@ -10,7 +10,7 @@
     >
       <div class="title-container">
         <h3 class="title">试题系统</h3>
-        <lang-select class="set-language" />
+        <!-- <lang-select class="set-language" /> -->
       </div>
 
       <el-form-item prop="username">
@@ -20,7 +20,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          :placeholder="用户名"
+          placeholder="用户名"
           name="username"
           type="text"
           tabindex="1"
@@ -42,7 +42,7 @@
             :key="passwordType"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="Password"
+            placeholder="密码"
             name="password"
             tabindex="2"
             auto-complete="on"
@@ -66,7 +66,7 @@
         <el-input
           v-model="loginForm.code"
           auto-complete="off"
-          :placeholder="请输入验证码"
+          placeholder="请输入验证码"
           style="width: 65%"
           @keyup.enter="handleLogin"
         />
@@ -85,7 +85,7 @@
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px"
-        @click.prevent="handleLogin"
+        @click.prevent="submitForm(loginFormRef)"
         >登 录
       </el-button>
     </el-form>
@@ -93,27 +93,38 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs } from "vue";
+import { onMounted, reactive, toRefs, ref } from "vue";
+import type { FormInstance } from "element-plus";
 
 // 组件依赖
 import SvgIcon from "@/components/SvgIcon/index.vue";
 
 // API依赖
 import { getCaptcha } from "@/api/login";
+import type { LoginFormData } from '@/types/api/system/login';
+
+// 状态管理
+import useStore from "@/stores";
+
+const { user } = useStore();
 
 const state = reactive({
   loginForm: {
     username: "admin",
     password: "123456",
-  },
+    code: "",
+  } as LoginFormData,
   loginRules: {
     username: [{ required: true, trigger: "blur" }],
     password: [
       { required: true, trigger: "blur", validator: validatePassword },
     ],
   },
+  loading: false,
   passwordType: "password",
   captchaBase64: "",
+  // 大写提示禁用
+  capslockTooltipDisabled: true,
 });
 
 function validatePassword(rule: any, value: any, callback: any) {
@@ -124,7 +135,20 @@ function validatePassword(rule: any, value: any, callback: any) {
   }
 }
 
-const { loginForm, loginRules, passwordType, captchaBase64 } = toRefs(state);
+const {
+  loginForm,
+  loginRules,
+  loading,
+  passwordType,
+  captchaBase64,
+  capslockTooltipDisabled,
+} = toRefs(state);
+
+function checkCapslock(e: any) {
+  const { key } = e;
+  state.capslockTooltipDisabled =
+    key && key.length === 1 && key >= "A" && key <= "Z";
+}
 
 function showPwd() {
   if (state.passwordType === "password") {
@@ -134,6 +158,28 @@ function showPwd() {
   }
   handleCaptchaGenerate();
 }
+
+const loginFormRef = ref<FormInstance>();
+
+function handleLogin() {
+  console.log("handleLogin");
+}
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log("submitForm!");
+      console.log(state.loginForm);
+      user.login(state.loginForm).catch(() => {
+        handleCaptchaGenerate();
+      });
+    } else {
+      console.log("error submit!");
+      return false;
+    }
+  });
+};
 
 /**
  * 获取验证码
@@ -145,6 +191,10 @@ function handleCaptchaGenerate() {
     console.log(data);
   });
 }
+
+onMounted(() => {
+  handleCaptchaGenerate();
+});
 </script>
 
 <style lang="scss">

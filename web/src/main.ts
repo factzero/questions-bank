@@ -1,18 +1,18 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
 
-import App from './App.vue'
-import router from './router'
+import App from "./App.vue";
+import router from "./router";
 
 // 引入svg注册脚本
-import 'virtual:svg-icons-register';
+import "virtual:svg-icons-register";
 
 // 自定义样式
-import '@/styles/index.scss';
+import "@/styles/index.scss";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(createPinia())
-app.use(router)
+app.use(createPinia());
+app.use(router);
 
-app.mount('#app')
+app.mount("#app");
