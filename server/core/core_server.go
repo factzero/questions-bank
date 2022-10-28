@@ -5,5 +5,5 @@ import "server/initialize"
 func RunWindowsServer() {
 	r := initialize.Routers()
 
-	r.Run()
+	r.Run(":6000")
 }

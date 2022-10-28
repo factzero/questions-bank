@@ -24,11 +24,10 @@ service.interceptors.response.use(
   function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
-    const { code, msg } = response.data;
-    if (code === "00000") {
+    if (response.data.code === 0) {
       return response.data;
     } else {
-      return Promise.reject(new Error(msg || "Error"));
+      return Promise.reject(new Error(response.data.msg || "Error"));
     }
   },
   function (error) {

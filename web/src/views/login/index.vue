@@ -100,7 +100,7 @@ import type { FormInstance } from "element-plus";
 import SvgIcon from "@/components/SvgIcon/index.vue";
 
 // API依赖
-import { getCaptcha } from "@/api/login";
+import { getCaptcha } from "@/api/login/user";
 import type { LoginFormData } from '@/types/api/system/login';
 
 // 状态管理
@@ -186,9 +186,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
  */
 function handleCaptchaGenerate() {
   getCaptcha().then(({ data }) => {
-    const { img, uuid } = data;
-    state.captchaBase64 = img;
     console.log(data);
+    const { captchaId, picPath } = data;
+    state.captchaBase64 = picPath;
   });
 }
 
