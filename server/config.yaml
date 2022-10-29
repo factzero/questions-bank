@@ -1,6 +1,7 @@
 # system configuration
 system:
   addr: 6000
+  dbtype: mysql
 
 # captcha configuration
 captcha:
@@ -14,3 +15,16 @@ jwt:
   expirestime: 7d
   buffertime: 1d
   issuer: zero
+
+# mysql connect configuration
+mysql:
+  path: "localhost"
+  port: "3306"
+  config: "parseTime=True"
+  dbname: "questionsbank"
+  username: "root"
+  password: "123456"
+  maxidleconns: 10
+  maxopenconns: 100
+  logmode: ""
+  logzap: false

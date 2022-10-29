@@ -10,10 +10,13 @@ require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mojocn/base64Captcha v1.3.5
 	github.com/spf13/viper v1.13.0 // indirect
 	github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77 // indirect
 	golang.org/x/image v0.1.0 // indirect
+	gorm.io/driver/mysql v1.4.3 // indirect
+	gorm.io/gorm v1.24.0 // indirect
 )
 
 replace server => ./server
