@@ -1,17 +1,20 @@
 import { defineStore } from "pinia";
-import type { LoginFormData } from '@/types/api/system/login';
+import type { LoginFormData } from "@/types/api/system/login";
+import { login } from "@/api/login/user";
+import { localStorage } from "@/utils/storage";
 
 const useUserStore = defineStore("user", {
   actions: {
-    login(loginData: LoginFormData) {
-      console.log("pinia useUserStore login():", loginData)
-      const { username, password, code, uuid } = loginData;
+    LoginIn(loginData: LoginFormData) {
       return new Promise((resolve, reject) => {
-        if(username === "admin") {
-          resolve(123)
-        } else {
-          reject(new Error("Something awful happened"));
-        }
+        login(loginData)
+          .then((respone) => {
+            localStorage.set("token", respone.data.token);
+            resolve(respone.data.token);
+          })
+          .catch((err) => {
+            reject(err);
+          });
       });
     },
   },

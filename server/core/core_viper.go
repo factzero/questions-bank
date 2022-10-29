@@ -43,7 +43,8 @@ func Viper(path ...string) *viper.Viper {
 	v.SetConfigFile(cfgFile)
 	v.SetConfigType("yaml")
 	if err := v.ReadInConfig(); err != nil {
-		panic(fmt.Errorf("Fatal error viper read config file: %s \n", err))
+		fmt.Println("Fatal error viper read config file:", err)
+		panic(err)
 	}
 
 	v.WatchConfig()

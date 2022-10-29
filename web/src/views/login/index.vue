@@ -64,7 +64,7 @@
           <svg-icon icon-class="valid_code" />
         </span>
         <el-input
-          v-model="loginForm.code"
+          v-model="loginForm.captcha"
           auto-complete="off"
           placeholder="请输入验证码"
           style="width: 65%"
@@ -101,7 +101,7 @@ import SvgIcon from "@/components/SvgIcon/index.vue";
 
 // API依赖
 import { getCaptcha } from "@/api/login/user";
-import type { LoginFormData } from '@/types/api/system/login';
+import type { LoginFormData } from "@/types/api/system/login";
 
 // 状态管理
 import useStore from "@/stores";
@@ -112,7 +112,8 @@ const state = reactive({
   loginForm: {
     username: "admin",
     password: "123456",
-    code: "",
+    captcha: "",
+    captchaid: "",
   } as LoginFormData,
   loginRules: {
     username: [{ required: true, trigger: "blur" }],
@@ -169,9 +170,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      console.log("submitForm!");
-      console.log(state.loginForm);
-      user.login(state.loginForm).catch(() => {
+      user.LoginIn(state.loginForm).catch(() => {
         handleCaptchaGenerate();
       });
     } else {
@@ -186,9 +185,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
  */
 function handleCaptchaGenerate() {
   getCaptcha().then(({ data }) => {
-    console.log(data);
     const { captchaId, picPath } = data;
     state.captchaBase64 = picPath;
+    state.loginForm.captchaid = captchaId;
   });
 }
 

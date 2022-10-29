@@ -7,3 +7,10 @@ captcha:
   keyLong: 6
   imgWidth: 240
   imgHeight: 80
+
+# jwt configuration
+jwt:
+  signingkey: zero
+  expirestime: 7d
+  buffertime: 1d
+  issuer: zero

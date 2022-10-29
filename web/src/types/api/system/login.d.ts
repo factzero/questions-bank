@@ -4,9 +4,8 @@
 export interface LoginFormData {
   username: string;
   password: string;
-  grant_type: string;
-  code: string;
-  uuid: string;
+  captcha: string;
+  captchaid: string;
 }
 
 /**
