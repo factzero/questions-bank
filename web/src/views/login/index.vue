@@ -48,7 +48,7 @@
             auto-complete="on"
             @keyup="checkCapslock"
             @blur="capslockTooltipDisabled = true"
-            @keyup.enter="handleLogin"
+            @keyup.enter="submitForm(loginFormRef)"
           />
           <span class="show-pwd" @click="showPwd">
             <svg-icon
@@ -68,7 +68,7 @@
           auto-complete="off"
           placeholder="请输入验证码"
           style="width: 65%"
-          @keyup.enter="handleLogin"
+          @keyup.enter="submitForm(loginFormRef)"
         />
 
         <div class="captcha">
@@ -95,6 +95,7 @@
 <script lang="ts" setup>
 import { onMounted, reactive, toRefs, ref } from "vue";
 import type { FormInstance } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 // 组件依赖
 import SvgIcon from "@/components/SvgIcon/index.vue";
@@ -157,14 +158,9 @@ function showPwd() {
   } else {
     state.passwordType = "password";
   }
-  handleCaptchaGenerate();
 }
 
 const loginFormRef = ref<FormInstance>();
-
-function handleLogin() {
-  console.log("handleLogin");
-}
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;

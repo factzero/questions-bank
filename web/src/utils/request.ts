@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ElMessage } from "element-plus";
 
 // 创建 axios 实例
 const service = axios.create({
@@ -24,10 +25,14 @@ service.interceptors.response.use(
   function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
-    console.log(response.data)
+    console.log(response.data);
     if (response.data.code === 0) {
       return response.data;
     } else {
+      ElMessage({
+        message: response.data.msg,
+        type: "error",
+      });
       return Promise.reject(new Error(response.data.msg || "Error"));
     }
   },
