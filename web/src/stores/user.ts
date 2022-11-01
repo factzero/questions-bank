@@ -1,11 +1,10 @@
 import { defineStore } from "pinia";
-import type { LoginFormData } from "@/types/api/system/login";
 import { login } from "@/api/login/user";
 import { localStorage } from "@/utils/storage";
 
 const useUserStore = defineStore("user", {
   actions: {
-    LoginIn(loginData: LoginFormData) {
+    LoginIn(loginData) {
       return new Promise((resolve, reject) => {
         login(loginData)
           .then((respone) => {
