@@ -79,6 +79,8 @@ import { getCaptcha } from "@/api/login/user";
 // 状态管理
 import useUserStore from "@/stores/user";
 
+import router from "@/router";
+
 // 控制是否显示密码
 const lock = ref("lock");
 const changeLock = () => {

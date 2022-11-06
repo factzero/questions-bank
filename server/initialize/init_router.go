@@ -14,6 +14,10 @@ func Routers() *gin.Engine {
 	{
 		systemRouter.InitBaseRouter(PublicGroup) // 注册基础功能路由 不做鉴权
 	}
+	PrivateGroup := r.Group("/api/v1")
+	{
+		systemRouter.InitMenuRouter(PrivateGroup)
+	}
 
 	return r
 }

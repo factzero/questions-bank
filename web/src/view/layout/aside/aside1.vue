@@ -8,16 +8,18 @@
       >
         <el-menu
           class="el-menu-vertical"
-          background-color="theme.background"
+          :background-color="theme.background"
           :text-color="theme.normalText"
           :active-text-color="theme.activeText"
+          router
+          @select="selectMenuItem"
         >
           <el-sub-menu index="1">
             <template #title>
               <el-icon><user /></el-icon>
               <span>超级管理员</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="1-1" route="/layout/dashboard">
               <el-icon><coordinate /></el-icon>
               <template #title>用户管理</template>
             </el-menu-item>
@@ -36,14 +38,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: "Aside",
+  name: "Aside1",
 };
 </script>
 
-<script setup>
+<script lang="ts" setup>
 import { ref } from "vue";
+import useStore from "@/stores/stores";
 
 const theme = ref({});
 const getTheme = () => {
@@ -72,6 +75,12 @@ const getTheme = () => {
 };
 
 getTheme();
+
+const { userStore, routerStore } = useStore();
+
+const selectMenuItem = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+};
 </script>
 
 <style lang="scss">
