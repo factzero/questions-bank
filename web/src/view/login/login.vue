@@ -136,9 +136,14 @@ const userStore = useUserStore();
 const submitForm = () => {
   loginForm.value.validate((v) => {
     if (v) {
-      userStore.LoginIn(loginFormData).catch(() => {
-        loginVerify();
-      });
+      userStore
+        .LoginIn(loginFormData)
+        .then(() => {
+          router.push({ path: "/layout/dashboard" });
+        })
+        .catch(() => {
+          loginVerify();
+        });
     } else {
       ElMessage({
         type: "error",

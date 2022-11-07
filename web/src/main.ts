@@ -18,13 +18,36 @@ app.use(router);
 
 app.mount("#app");
 
-// router.beforeEach(async (to, from, next) => {
-//   const { routerStore } = useStore();
-//   const accessRoutes: any = await routerStore.generateRoutes();
-//   console.log("router.beforeEach: ", accessRoutes);
-//   accessRoutes.forEach((route: any) => {
-//     router.addRoute(route);
-//   });
-//   console.log("router: ", router);
-//   next();
-// });
+// 白名单路由
+const whiteList = ["/login"];
+
+router.beforeEach(async (to, from, next) => {
+  console.log("router.beforeEach: to ", to);
+  const { userStore, routerStore } = useStore();
+  const hasToken = userStore.token;
+  if (hasToken) {
+    const hasLogin = userStore.flag.length > 0;
+    console.log("hasToken: ", hasLogin);
+    if (hasLogin) {
+      next();
+    } else {
+      try {
+        userStore.flag = "login";
+        const accessRoutes: any = await routerStore.generateRoutes();
+        accessRoutes.forEach((route: any) => {
+          router.addRoute(route);
+        });
+        next({ ...to, replace: true });
+      } catch (error) {
+        console.log("beforeEach:", error);
+      }
+    }
+  } else {
+    if (whiteList.indexOf(to.path) !== -1) {
+      next();
+    } else {
+      // next({ path: "/login" });
+      next(`/login?redirect=${to.path}`);
+    }
+  }
+});

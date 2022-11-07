@@ -1,28 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
-// ¾²Ì¬Â·ÓÉ
+// é™æ€è·¯ç”±
 const routes = [
-  {
-    path: "/",
-    redirect: "/login",
-  },
   {
     path: "/login",
     name: "Login",
     component: () => import("@/view/login/login.vue"),
   },
-  // {
-  //   path: "/layout",
-  //   name: "Layout",
-  //   component: () => import("@/view/layout/layout.vue"),
-  //   children: [
-  //     {
-  //       path: "dashboard",
-  //       component: () => import("@/view/dashboard/dashboard.vue"),
-  //     },
-  //   ],
-  // },
+  {
+    path: "/",
+    name: "Layout",
+    component: () => import("@/view/layout/layout.vue"),
+    redirect: "/layout/dashboard",
+    children: [
+      {
+        path: "dashboard",
+        component: () => import("@/view/dashboard/dashboard.vue"),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
