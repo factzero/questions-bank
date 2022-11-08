@@ -62,7 +62,7 @@
                               >
                               <el-dropdown-item
                                 icon="reading-lamp"
-                                @click="loginOut"
+                                @click="logOut"
                                 >登 出</el-dropdown-item
                               >
                             </el-dropdown-menu>
@@ -102,8 +102,8 @@ import router from "@/router";
 
 const { userStore } = useStore();
 
-const loginOut = () => {
-  userStore.LoginOut();
+const logOut = () => {
+  userStore.LogOut();
   router.push({ name: "Login", replace: true });
 };
 

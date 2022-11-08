@@ -137,7 +137,7 @@ const submitForm = () => {
   loginForm.value.validate((v) => {
     if (v) {
       userStore
-        .LoginIn(loginFormData)
+        .LogIn(loginFormData)
         .then(() => {
           router.push({ path: "/layout/dashboard" });
         })

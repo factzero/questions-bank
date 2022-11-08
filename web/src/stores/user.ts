@@ -9,7 +9,7 @@ const useUserStore = defineStore("user", {
     flag: "",
   }),
   actions: {
-    LoginIn(loginData) {
+    LogIn(loginData) {
       return new Promise((resolve, reject) => {
         login(loginData)
           .then((respone) => {
@@ -22,7 +22,7 @@ const useUserStore = defineStore("user", {
           });
       });
     },
-    LoginOut() {
+    LogOut() {
       return new Promise((resolve, reject) => {
         localStorage.remove("token");
       });
