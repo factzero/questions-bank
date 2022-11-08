@@ -18,7 +18,7 @@ app.use(router);
 
 app.mount("#app");
 
-// °×Ãûµ¥Â·ÓÉ
+// ç™½åå•è·¯ç”±
 const whiteList = ["/login"];
 
 router.beforeEach(async (to, from, next) => {

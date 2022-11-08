@@ -22,6 +22,11 @@ const useUserStore = defineStore("user", {
           });
       });
     },
+    LoginOut() {
+      return new Promise((resolve, reject) => {
+        localStorage.remove("token");
+      });
+    },
   },
 });
 

@@ -60,7 +60,9 @@
                               <el-dropdown-item icon="avatar"
                                 >个人信息</el-dropdown-item
                               >
-                              <el-dropdown-item icon="reading-lamp"
+                              <el-dropdown-item
+                                icon="reading-lamp"
+                                @click="loginOut"
                                 >登 出</el-dropdown-item
                               >
                             </el-dropdown-menu>
@@ -95,6 +97,15 @@
 <script setup>
 import { computed } from "vue";
 import Aside from "@/view/layout/aside/aside.vue";
+import useStore from "@/stores/stores";
+import router from "@/router";
+
+const { userStore } = useStore();
+
+const loginOut = () => {
+  userStore.LoginOut();
+  router.push({ name: "Login", replace: true });
+};
 
 const backgroundColor = computed(() => {
   return "#191a23";
