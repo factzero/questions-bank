@@ -11,6 +11,7 @@ func main() {
 	global.GVA_DB = initialize.Gorm()
 	if global.GVA_DB != nil {
 		initialize.RegisterTables(global.GVA_DB)
+		initialize.InitDB()
 		db, _ := global.GVA_DB.DB()
 		defer db.Close()
 	}
