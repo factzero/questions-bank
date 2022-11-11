@@ -7,6 +7,7 @@ type CfgGeneralDB struct {
 	Dbname       string `mapstructure:"dbname" json:"dbname" yaml:"dbname"`                   // 数据库名
 	Username     string `mapstructure:"username" json:"username" yaml:"username"`             // 数据库用户名
 	Password     string `mapstructure:"password" json:"password" yaml:"password"`             // 数据库密码
+	Engine       string `mapstructure:"engine" json:"engine" yaml:"engine" default:"InnoDB"`  //数据库引擎，默认InnoDB
 	MaxIdleConns int    `mapstructure:"maxidleconns" json:"maxidleconns" yaml:"maxidleconns"` // 空闲中的最大连接数
 	MaxOpenConns int    `mapstructure:"maxopenconns" json:"maxopenconns" yaml:"maxopenconns"` // 打开到数据库的最大连接数
 	LogMode      string `mapstructure:"logmode" json:"logmode" yaml:"logmode"`                // 是否开启Gorm全局日志

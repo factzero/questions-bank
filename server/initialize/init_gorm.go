@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"server/global"
 	"server/model/system"
+	"server/model/system/request"
+	"server/service"
 
 	"gorm.io/gorm"
 )
@@ -31,13 +33,17 @@ func RegisterTables(db *gorm.DB) {
 }
 
 func InitDB() {
-	// dbInfo := request.InitDB{
-	// 	UserName: "root",
-	// 	Password: "123456",
-	// 	DBName:   "questionsbank",
-	// }
+	m := global.GVA_CONFIG.Mysql
+	dbInfo := request.InitDB{
+		DBType:   "mysql",
+		Host:     m.Path,
+		Port:     m.Port,
+		UserName: m.Username,
+		Password: m.Password,
+		DBName:   m.Dbname,
+	}
 
-	// if err := service.ServiceGroupApp.InitDBService.InitDB(dbInfo); err != nil {
-	// 	fmt.Println("◊‘∂Ø¥¥Ω® ˝æ›ø‚ ß∞‹! ", err.Error())
-	// }
+	if err := service.ServiceGroupApp.InitDBService.InitDB(dbInfo); err != nil {
+		fmt.Println("Ëá™Âä®ÂàõÂª∫Êï∞ÊçÆÂ∫ìÂ§±Ë¥•! ", err.Error())
+	}
 }
