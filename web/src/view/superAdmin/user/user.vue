@@ -37,35 +37,12 @@
           min-width="180"
           prop="email"
         />
-        <el-table-column align="left" label="用户角色" min-width="200">
-          <template #default="scope">
-            <el-cascader
-              v-model="scope.row.authorityIds"
-              :options="authOptions"
-              :show-all-levels="false"
-              collapse-tags
-              :props="{
-                multiple: true,
-                checkStrictly: true,
-                label: 'authorityName',
-                value: 'authorityId',
-                disabled: 'disabled',
-                emitPath: false,
-              }"
-              :clearable="false"
-              @visible-change="
-                (flag) => {
-                  changeAuthority(scope.row, flag, 0);
-                }
-              "
-              @remove-tag="
-                (removeAuth) => {
-                  changeAuthority(scope.row, false, removeAuth);
-                }
-              "
-            />
-          </template>
-        </el-table-column>
+        <el-table-column
+          align="left"
+          label="用户角色"
+          min-width="150"
+          prop="authorityName"
+        />
         <el-table-column align="left" label="启用" min-width="150">
           <template #default="scope">
             <el-switch
@@ -183,7 +160,7 @@
               :options="authOptions"
               :show-all-levels="false"
               :props="{
-                multiple: true,
+                multiple: false,
                 checkStrictly: true,
                 label: 'authorityName',
                 value: 'authorityId',

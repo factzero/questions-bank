@@ -48,24 +48,36 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 
 	entities := []sysModel.SysUser{
 		{
-			UUID:        uuid.NewV4(),
-			Username:    "admin",
-			Password:    adminPassword,
-			NickName:    "Mr.zero",
-			HeaderImg:   "https://qmplusimg.henrongyi.top/gva_header.jpg",
-			AuthorityId: 888,
-			Phone:       "1111111111",
-			Email:       "1111111111@qq.com",
+			UUID:          uuid.NewV4(),
+			Username:      "admin",
+			Password:      adminPassword,
+			NickName:      "Mr.zero",
+			HeaderImg:     "https://qmplusimg.henrongyi.top/gva_header.jpg",
+			AuthorityName: "管理员",
+			AuthorityId:   9999,
+			Phone:         "1111111111",
+			Email:         "1111111111@qq.com",
 		},
 		{
-			UUID:        uuid.NewV4(),
-			Username:    "test",
-			Password:    password,
-			NickName:    "test1",
-			HeaderImg:   "https://qmplusimg.henrongyi.top/1572075907logo.png",
-			AuthorityId: 9528,
-			Phone:       "2222222222",
-			Email:       "2222222222@qq.com"},
+			UUID:          uuid.NewV4(),
+			Username:      "consumer",
+			Password:      password,
+			NickName:      "consumer1",
+			HeaderImg:     "https://qmplusimg.henrongyi.top/1572075907logo.png",
+			AuthorityName: "普通用户",
+			AuthorityId:   8888,
+			Phone:         "2222222222",
+			Email:         "2222222222@qq.com"},
+		{
+			UUID:          uuid.NewV4(),
+			Username:      "test",
+			Password:      password,
+			NickName:      "test1",
+			HeaderImg:     "https://qmplusimg.henrongyi.top/1572075907logo.png",
+			AuthorityName: "测试角色",
+			AuthorityId:   6666,
+			Phone:         "3333333333",
+			Email:         "3333333333@qq.com"},
 	}
 	if err = db.Create(&entities).Error; err != nil {
 		return ctx, errors.Wrap(err, sysModel.SysUser{}.TableName()+"表数据初始化失败!")
@@ -75,10 +87,13 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 	if !ok {
 		return next, errors.Wrap(service.ErrMissingDependentContext, "创建 [用户-权限] 关联失败, 未找到权限表初始化数据")
 	}
-	if err = db.Model(&entities[0]).Association("Authorities").Replace(authorityEntities); err != nil {
+	if err = db.Model(&entities[0]).Association("Authorities").Replace(&authorityEntities[0]); err != nil {
 		return next, err
 	}
-	if err = db.Model(&entities[1]).Association("Authorities").Replace(authorityEntities[:1]); err != nil {
+	if err = db.Model(&entities[1]).Association("Authorities").Replace(&authorityEntities[1]); err != nil {
+		return next, err
+	}
+	if err = db.Model(&entities[2]).Association("Authorities").Replace(&authorityEntities[2]); err != nil {
 		return next, err
 	}
 	return next, err
@@ -94,5 +109,5 @@ func (i *initUser) DataInserted(ctx context.Context) bool {
 		Preload("Authorities").First(&record).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}
-	return len(record.Authorities) > 0 && record.Authorities[0].AuthorityId == 888
+	return len(record.Authorities) > 0 && record.Authorities[0].AuthorityId == 6666
 }
