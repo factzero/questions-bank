@@ -20,7 +20,7 @@ func (s *UserService) Login(u *system.SysUser) (*system.SysUser, error) {
 	err := global.GVA_DB.Where("username = ?", u.Username).Preload("Authorities").Preload("Authority").First(&user).Error
 	if err == nil {
 		if ok := utils.BcryptCheck(u.Password, user.Password); !ok {
-			return nil, errors.New("ÃÜÂë´íÎó")
+			return nil, errors.New("å¯†ç é”™è¯¯")
 		}
 	}
 

@@ -1,12 +1,15 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import ElementPlus from "element-plus";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
 
 import App from "./App.vue";
 import router from "./router";
 import useStore from "@/stores/stores";
 
 import "element-plus/theme-chalk/index.css";
+import "@/style/element_visiable.scss";
 
 const app = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -15,6 +18,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.use(createPinia());
 app.use(router);
+app.use(ElementPlus, { locale: zhCn });
 
 app.mount("#app");
 
