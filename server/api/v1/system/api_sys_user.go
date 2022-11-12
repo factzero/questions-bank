@@ -1,7 +1,9 @@
 package system
 
 import (
+	"fmt"
 	"server/global"
+	"server/model/common/request"
 	"server/model/common/response"
 	"server/model/system"
 	systemReq "server/model/system/request"
@@ -24,6 +26,7 @@ func (b *BaseApi) Login(c *gin.Context) {
 		u := &system.SysUser{Username: l.Username, Password: l.Password}
 		user, err := userService.Login(u)
 		if err != nil {
+			fmt.Println("登陆失败! 用户名不存在或者密码错误!", err.Error())
 			response.FailWithMessage("用户名不存在或者密码错误", c)
 			return
 		}
@@ -48,4 +51,25 @@ func (b *BaseApi) TokenNext(c *gin.Context, user system.SysUser) {
 		Token:     token,
 		ExpiresAt: claims.StandardClaims.ExpiresAt * 1000,
 	}, "登录成功", c)
+}
+
+func (b *BaseApi) GetUserList(c *gin.Context) {
+	var pageInfo request.PageInfo
+	err := c.ShouldBindJSON(&pageInfo)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	list, total, err := userService.GetUserInfoList(pageInfo)
+	if err != nil {
+		fmt.Println("获取失败!", err.Error())
+		response.FailWithMessage("获取失败", c)
+		return
+	}
+	response.OkWithDetailed(response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     pageInfo.Page,
+		PageSize: pageInfo.PageSize,
+	}, "获取成功", c)
 }

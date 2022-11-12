@@ -7,6 +7,13 @@ const useUserStore = defineStore("user", {
   state: () => ({
     token: localStorage.get("token") || "",
     flag: "",
+    uuid: "",
+    nickName: "",
+    headerImg: "",
+    authority: {},
+    sideMode: "dark",
+    activeColor: "#4D70FF",
+    baseColor: "#fff",
   }),
   actions: {
     LogIn(loginData) {

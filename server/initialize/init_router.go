@@ -17,6 +17,8 @@ func Routers() *gin.Engine {
 	PrivateGroup := r.Group("/api/v1")
 	{
 		systemRouter.InitMenuRouter(PrivateGroup)
+		systemRouter.InitUserRouter(PrivateGroup)      // 注册用户路由
+		systemRouter.InitAuthorityRouter(PrivateGroup) // 注册角色路由
 	}
 
 	return r

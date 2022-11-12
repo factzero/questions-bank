@@ -27,7 +27,6 @@ router.beforeEach(async (to, from, next) => {
   const hasToken = userStore.token;
   if (hasToken) {
     const hasLogin = userStore.flag.length > 0;
-    console.log("hasToken: ", hasLogin);
     if (hasLogin) {
       next();
     } else {

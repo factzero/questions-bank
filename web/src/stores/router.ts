@@ -24,8 +24,8 @@ const useRouterStore = defineStore("router", {
         getMenu()
           .then((respone) => {
             baseRouter[0].children = respone.data.menus;
-            console.log(baseRouter);
             asyncRouterHandle(baseRouter);
+            console.log("baseRouter: ", baseRouter);
             resolve(baseRouter);
           })
           .catch((err) => {

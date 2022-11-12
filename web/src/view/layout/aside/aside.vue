@@ -72,8 +72,7 @@ const router = useRouter();
 const { userStore, routerStore } = useStore();
 
 const selectMenuItem = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-  console.log(route.name);
+  console.log("aside: ", key, keyPath, route.name);
   const query = {};
   const params = {};
   router.push({ name: key, query, params });
