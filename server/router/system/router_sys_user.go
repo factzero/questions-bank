@@ -17,5 +17,6 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	}
 	{
 		userRouterWithoutRecord.POST("getUserList", baseApi.GetUserList) // 分页获取用户列表
+		userRouterWithoutRecord.GET("getUserInfo", baseApi.GetUserInfo)  // 获取自身信息
 	}
 }

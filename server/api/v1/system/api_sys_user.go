@@ -39,6 +39,7 @@ func (b *BaseApi) Login(c *gin.Context) {
 func (b *BaseApi) TokenNext(c *gin.Context, user system.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)} // 唯一签名
 	claims := j.CreateClaims(systemReq.BaseClaimsRequest{
+		UUID:        user.UUID,
 		ID:          user.ID,
 		NickName:    user.NickName,
 		Username:    user.Username,
@@ -75,6 +76,17 @@ func (b *BaseApi) GetUserList(c *gin.Context) {
 		Page:     pageInfo.Page,
 		PageSize: pageInfo.PageSize,
 	}, "获取成功", c)
+}
+
+func (b *BaseApi) GetUserInfo(c *gin.Context) {
+	uuid := utils.GetUserUuid(c)
+	ReqUser, err := userService.GetUserInfo(uuid)
+	if err != nil {
+		fmt.Println("获取失败!", err.Error())
+		response.FailWithMessage("获取失败", c)
+		return
+	}
+	response.OkWithDetailed(gin.H{"userInfo": ReqUser}, "获取成功", c)
 }
 
 func (b *BaseApi) Register(c *gin.Context) {

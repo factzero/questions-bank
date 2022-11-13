@@ -1,13 +1,17 @@
 package service
 
 import (
-	"fmt"
+	"errors"
 	"server/global"
 	"server/model/system"
 	"strconv"
+
+	"gorm.io/gorm"
 )
 
 type MenuService struct{}
+
+var MenuServiceApp = new(MenuService)
 
 func (menuService *MenuService) getMenuTreeMap(authorityId uint) (treeMap map[string][]system.SysMenu, err error) {
 	var allMenus []system.SysMenu
@@ -55,11 +59,23 @@ func (menuService *MenuService) getChildrenList(menu *system.SysMenu, treeMap ma
 }
 
 func (menuService *MenuService) GetMenuTree(authorityId uint) (menus []system.SysMenu, err error) {
-	fmt.Println("MenuService GetMenuTree:", authorityId)
 	menuTree, err := menuService.getMenuTreeMap(authorityId)
 	menus = menuTree["0"]
 	for i := 0; i < len(menus); i++ {
 		err = menuService.getChildrenList(&menus[i], menuTree)
 	}
 	return menus, err
+}
+
+func (menuService *MenuService) UserAuthorityDefaultRouter(user *system.SysUser) {
+	var menuIds []string
+	err := global.GVA_DB.Model(&system.SysAuthorityMenu{}).Where("sys_authority_authority_id = ?", user.AuthorityId).Pluck("sys_base_menu_id", &menuIds).Error
+	if err != nil {
+		return
+	}
+	var am system.SysBaseMenu
+	err = global.GVA_DB.First(&am, "name = ? and id in (?)", user.Authority.DefaultRouter, menuIds).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		user.Authority.DefaultRouter = "404"
+	}
 }

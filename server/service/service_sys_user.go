@@ -43,6 +43,16 @@ func (userService *UserService) GetUserInfoList(info request.PageInfo) (list int
 	return userList, total, err
 }
 
+func (userService *UserService) GetUserInfo(uuid uuid.UUID) (user system.SysUser, err error) {
+	var reqUser system.SysUser
+	err = global.GVA_DB.Preload("Authorities").Preload("Authority").First(&reqUser, "uuid = ?", uuid).Error
+	if err != nil {
+		return reqUser, err
+	}
+	MenuServiceApp.UserAuthorityDefaultRouter(&reqUser)
+	return reqUser, err
+}
+
 func (userService *UserService) Register(u system.SysUser) (userInter system.SysUser, err error) {
 	var user system.SysUser
 	if !errors.Is(global.GVA_DB.Where("username = ?", u.Username).First(&user).Error, gorm.ErrRecordNotFound) { // 判断用户名是否注册

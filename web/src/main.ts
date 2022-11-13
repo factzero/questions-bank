@@ -24,28 +24,47 @@ app.mount("#app");
 
 // 白名单路由
 const whiteList = ["/login"];
+let asyncRouterFlag = 0;
+
+const getRouter = async () => {
+  const { userStore, routerStore } = useStore();
+  const accessRoutes: any = await routerStore.generateRoutes();
+  accessRoutes.forEach((route: any) => {
+    router.addRoute(route);
+  });
+  await userStore.GetUserInfo();
+};
 
 router.beforeEach(async (to, from, next) => {
   console.log("router.beforeEach: to ", to);
   to.meta.matched = [...to.matched];
-  const { userStore, routerStore } = useStore();
+  const { userStore } = useStore();
   const hasToken = userStore.token;
   if (hasToken) {
-    const hasLogin = userStore.flag.length > 0;
-    if (hasLogin) {
-      next();
-    } else {
-      try {
-        userStore.flag = "login";
-        const accessRoutes: any = await routerStore.generateRoutes();
-        accessRoutes.forEach((route: any) => {
-          router.addRoute(route);
-        });
+    if (!asyncRouterFlag && whiteList.indexOf(from.name) < 0) {
+      asyncRouterFlag++;
+      await getRouter();
+      if (userStore.token) {
         next({ ...to, replace: true });
-      } catch (error) {
-        console.log("beforeEach:", error);
+      } else {
+        return { path: "/login" };
       }
+    } else {
+      next();
     }
+    // const hasLogin = userStore.flag.length > 0;
+    // console.log("router.beforeEach hasLogin: ", hasLogin);
+    // if (hasLogin) {
+    //   next();
+    // } else {
+    //   try {
+    //     userStore.flag = "login";
+    //     getRouter();
+    //     next({ ...to, replace: true });
+    //   } catch (error) {
+    //     console.log("beforeEach:", error);
+    //   }
+    // }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       next();

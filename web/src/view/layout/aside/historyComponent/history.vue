@@ -85,7 +85,9 @@ const top = ref(0);
 const isCollapse = ref(false);
 const isMobile = ref(false);
 const rightActive = ref("");
-const defaultRouter = computed(() => userStore.authority.defaultRouter);
+const defaultRouter = computed(
+  () => userStore.userInfo.authority.defaultRouter
+);
 const openContextMenu = (e) => {
   if (historys.value.length === 1 && route.name === defaultRouter.value) {
     return false;

@@ -46,6 +46,13 @@ export const setUserInfo = (data) => {
   });
 };
 
+export const getUserInfo = () => {
+  return request({
+    url: "/api/v1/user/getUserInfo",
+    method: "get",
+  });
+};
+
 // @Tags User
 // @Summary 分页获取用户列表
 // @Security ApiKeyAuth
