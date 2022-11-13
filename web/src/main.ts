@@ -27,6 +27,7 @@ const whiteList = ["/login"];
 
 router.beforeEach(async (to, from, next) => {
   console.log("router.beforeEach: to ", to);
+  to.meta.matched = [...to.matched];
   const { userStore, routerStore } = useStore();
   const hasToken = userStore.token;
   if (hasToken) {

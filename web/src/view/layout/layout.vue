@@ -40,7 +40,11 @@
                     >
                       <el-breadcrumb class="breadcrumb">
                         <el-breadcrumb-item
-                          >el-breadcrumb-item</el-breadcrumb-item
+                          v-for="item in matched.slice(1, matched.length)"
+                          :key="item.path"
+                          >{{
+                            fmtTitle(item.meta.title, route)
+                          }}</el-breadcrumb-item
                         >
                       </el-breadcrumb>
                     </el-col>
@@ -76,6 +80,7 @@
                 </el-header>
               </el-col>
             </el-row>
+            <HistoryComponent ref="layoutHistoryComponent" />
           </div>
         </transition>
         <router-view
@@ -98,12 +103,21 @@
 
 <script setup>
 import { computed } from "vue";
+import { useRoute } from "vue-router";
+
 import Aside from "@/view/layout/aside/aside.vue";
+import HistoryComponent from "@/view/layout/aside/historyComponent/history.vue";
 import useStore from "@/stores/stores";
 import router from "@/router";
+import { fmtTitle } from "@/utils/fmtRouterTitle";
+
+const route = useRoute();
+const matched = computed(() => {
+  console.log(route.meta.matched);
+  return route.meta.matched;
+});
 
 const { userStore } = useStore();
-
 const logOut = () => {
   userStore.LogOut();
   router.push({ name: "Login", replace: true });
