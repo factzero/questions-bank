@@ -39,7 +39,10 @@ func (b *BaseApi) Login(c *gin.Context) {
 func (b *BaseApi) TokenNext(c *gin.Context, user system.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)} // 唯一签名
 	claims := j.CreateClaims(systemReq.BaseClaimsRequest{
-		Username: user.Username,
+		ID:          user.ID,
+		NickName:    user.NickName,
+		Username:    user.Username,
+		AuthorityId: user.AuthorityId,
 	})
 	token, err := j.CreateToken(claims)
 	if err != nil {
@@ -72,4 +75,27 @@ func (b *BaseApi) GetUserList(c *gin.Context) {
 		Page:     pageInfo.Page,
 		PageSize: pageInfo.PageSize,
 	}, "获取成功", c)
+}
+
+func (b *BaseApi) Register(c *gin.Context) {
+	var r systemReq.Register
+	err := c.ShouldBindJSON(&r)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	var authorities []system.SysAuthority
+	for _, v := range r.AuthorityIds {
+		authorities = append(authorities, system.SysAuthority{
+			AuthorityId: v,
+		})
+	}
+	user := &system.SysUser{Username: r.Username, NickName: r.NickName, Password: r.Password, HeaderImg: r.HeaderImg, AuthorityId: r.AuthorityId, Authorities: authorities, Enable: r.Enable, Phone: r.Phone, Email: r.Email}
+	userReturn, err := userService.Register(*user)
+	if err != nil {
+		fmt.Println("注册失败!", err.Error())
+		response.FailWithDetailed(systemRes.SysUserResponse{User: userReturn}, "注册失败", c)
+		return
+	}
+	response.OkWithDetailed(systemRes.SysUserResponse{User: userReturn}, "注册成功", c)
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
+import useUserStore from "@/stores/user";
 
 // 创建 axios 实例
 const service = axios.create({
@@ -11,7 +12,13 @@ const service = axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(
   function (config) {
-    // 在发送请求之前做些什么
+    const userStore = useUserStore();
+    config.headers = {
+      "Content-Type": "application/json",
+      "x-token": userStore.token,
+      "x-user-id": userStore.uuid,
+      ...config.headers,
+    };
     return config;
   },
   function (error) {

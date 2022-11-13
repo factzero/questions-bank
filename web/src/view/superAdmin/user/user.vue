@@ -155,7 +155,7 @@
           </el-form-item>
           <el-form-item label="用户角色" prop="authorityId">
             <el-cascader
-              v-model="userInfo.authorityIds"
+              v-model="userInfo.authorityId"
               style="width: 100%"
               :options="authOptions"
               :show-all-levels="false"
@@ -377,7 +377,6 @@ const rules = ref({
 });
 const userForm = ref(null);
 const enterAddUserDialog = async () => {
-  userInfo.value.authorityId = userInfo.value.authorityIds[0];
   userForm.value.validate(async (valid) => {
     if (valid) {
       const req = {

@@ -7,6 +7,7 @@ const useUserStore = defineStore("user", {
   state: () => ({
     token: localStorage.get("token") || "",
     flag: "",
+    userName: "",
     uuid: "",
     nickName: "",
     headerImg: "",
@@ -22,6 +23,7 @@ const useUserStore = defineStore("user", {
           .then((respone) => {
             localStorage.set("token", respone.data.token);
             this.token = respone.data.token;
+            this.userName = loginData.username;
             resolve(respone.data.token);
           })
           .catch((err) => {
@@ -31,7 +33,10 @@ const useUserStore = defineStore("user", {
     },
     LogOut() {
       return new Promise((resolve, reject) => {
-        localStorage.remove("token");
+        this.token = "";
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.reload();
       });
     },
   },

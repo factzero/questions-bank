@@ -51,7 +51,9 @@
                             class="dp-flex justify-content-center align-items height-full width-full"
                           >
                             <span class="header-avatar" style="cursor: pointer">
-                              <span style="margin-left: 5px">nickName</span>
+                              <span style="margin-left: 5px">{{
+                                userStore.userName
+                              }}</span>
                               <el-icon><arrow-down /></el-icon>
                             </span>
                           </div>

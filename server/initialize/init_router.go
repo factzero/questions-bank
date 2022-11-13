@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"server/middleware"
 	"server/router"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,7 @@ func Routers() *gin.Engine {
 		systemRouter.InitBaseRouter(PublicGroup) // 注册基础功能路由 不做鉴权
 	}
 	PrivateGroup := r.Group("/api/v1")
+	PrivateGroup.Use(middleware.JWTAuth())
 	{
 		systemRouter.InitMenuRouter(PrivateGroup)
 		systemRouter.InitUserRouter(PrivateGroup)      // 注册用户路由

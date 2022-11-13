@@ -25,6 +25,7 @@ const (
 	InitOrderAuthority = iota
 	InitOrderUser
 	InitOrderMenu
+	InitOrderMenuAuthority
 	InitOrderInternal = 1000
 	InitOrderExternal = 100000
 )
