@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
-import useUserStore from "@/stores/user";
+import router from "@/router";
+import useStore from "@/stores/stores";
 
 // 创建 axios 实例
 const service = axios.create({
@@ -12,11 +13,11 @@ const service = axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(
   function (config) {
-    const userStore = useUserStore();
+    const { userStore } = useStore();
     config.headers = {
       "Content-Type": "application/json",
       "x-token": userStore.token,
-      "x-user-id": userStore.uuid,
+      "x-user-id": userStore.userInfo.uuid,
       ...config.headers,
     };
     return config;
@@ -32,7 +33,6 @@ service.interceptors.response.use(
   function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
-    console.log(response.data);
     if (response.data.code === 0) {
       return response.data;
     } else {
@@ -40,6 +40,10 @@ service.interceptors.response.use(
         message: response.data.msg,
         type: "error",
       });
+      const { userStore } = useStore();
+      userStore.token = "";
+      localStorage.clear();
+      router.push({ name: "Login", replace: true });
       return Promise.reject(new Error(response.data.msg || "Error"));
     }
   },

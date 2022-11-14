@@ -44,7 +44,6 @@ func (i *initAuthority) InitializeData(ctx context.Context) (context.Context, er
 	entities := []sysModel.SysAuthority{
 		{AuthorityId: 9999, AuthorityName: "管理员", DefaultRouter: "dashboard"},
 		{AuthorityId: 8888, AuthorityName: "普通用户", DefaultRouter: "dashboard"},
-		{AuthorityId: 6666, AuthorityName: "测试角色", DefaultRouter: "dashboard"},
 	}
 
 	if err := db.Create(&entities).Error; err != nil {

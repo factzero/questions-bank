@@ -52,24 +52,10 @@ router.beforeEach(async (to, from, next) => {
     } else {
       next();
     }
-    // const hasLogin = userStore.flag.length > 0;
-    // console.log("router.beforeEach hasLogin: ", hasLogin);
-    // if (hasLogin) {
-    //   next();
-    // } else {
-    //   try {
-    //     userStore.flag = "login";
-    //     getRouter();
-    //     next({ ...to, replace: true });
-    //   } catch (error) {
-    //     console.log("beforeEach:", error);
-    //   }
-    // }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       next();
     } else {
-      // next({ path: "/login" });
       next(`/login?redirect=${to.path}`);
     }
   }

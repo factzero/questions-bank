@@ -53,19 +53,8 @@ func (i *initMenuAuthority) InitializeData(ctx context.Context) (next context.Co
 
 	// 8888 普通用户
 	menu8888 := menus[:2]
-	menu8888 = append(menu8888, menus[6])
+	menu8888 = append(menu8888, menus[9])
 	if err = db.Model(&authorities[1]).Association("SysBaseMenus").Replace(menu8888); err != nil {
-		return next, err
-	}
-	if err = db.Model(&authorities[1]).Association("SysBaseMenus").Append(menus[9:]); err != nil {
-		return next, err
-	}
-
-	// 6666 测试角色
-	menu6666 := menus[:2]
-	menu6666 = append(menu6666, menus[6])
-	menu6666 = append(menu6666, menus[9])
-	if err = db.Model(&authorities[2]).Association("SysBaseMenus").Replace(menu6666); err != nil {
 		return next, err
 	}
 	return next, nil

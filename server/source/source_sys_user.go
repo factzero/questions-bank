@@ -43,7 +43,7 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 	if !ok {
 		return ctx, service.ErrMissingDBContext
 	}
-	password := utils.BcryptHash("654321")
+	password := utils.BcryptHash("123456")
 	adminPassword := utils.BcryptHash("123456")
 
 	entities := []sysModel.SysUser{
@@ -60,24 +60,14 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 		},
 		{
 			UUID:          uuid.NewV4(),
-			Username:      "consumer",
+			Username:      "test",
 			Password:      password,
-			NickName:      "consumer1",
+			NickName:      "Mr.test",
 			HeaderImg:     "https://qmplusimg.henrongyi.top/1572075907logo.png",
 			AuthorityName: "普通用户",
 			AuthorityId:   8888,
 			Phone:         "2222222222",
 			Email:         "2222222222@qq.com"},
-		{
-			UUID:          uuid.NewV4(),
-			Username:      "test",
-			Password:      password,
-			NickName:      "test1",
-			HeaderImg:     "https://qmplusimg.henrongyi.top/1572075907logo.png",
-			AuthorityName: "测试角色",
-			AuthorityId:   6666,
-			Phone:         "3333333333",
-			Email:         "3333333333@qq.com"},
 	}
 	if err = db.Create(&entities).Error; err != nil {
 		return ctx, errors.Wrap(err, sysModel.SysUser{}.TableName()+"表数据初始化失败!")
@@ -91,9 +81,6 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 		return next, err
 	}
 	if err = db.Model(&entities[1]).Association("Authorities").Replace(&authorityEntities[1]); err != nil {
-		return next, err
-	}
-	if err = db.Model(&entities[2]).Association("Authorities").Replace(&authorityEntities[2]); err != nil {
 		return next, err
 	}
 	return next, err

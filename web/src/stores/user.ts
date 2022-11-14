@@ -18,7 +18,7 @@ const useUserStore = defineStore("user", {
     },
   }),
   actions: {
-    setUserInfo(val) {
+    setUserInfo(val: any) {
       const {
         uuid,
         nickName,
@@ -36,19 +36,16 @@ const useUserStore = defineStore("user", {
       this.userInfo.activeColor = activeColor;
       this.userInfo.baseColor = baseColor;
     },
-    LogIn(loginData) {
+    LogIn(loginData: any) {
       return new Promise((resolve, reject) => {
         login(loginData)
           .then((respone) => {
             localStorage.set("token", respone.data.token);
             this.token = respone.data.token;
             this.setUserInfo(respone.data.user);
-            console.log("this.userInfo:", this.userInfo);
-
             resolve(respone.data.token);
           })
           .catch((err) => {
-            console.log(err);
             reject(err);
           });
       });
@@ -66,14 +63,10 @@ const useUserStore = defineStore("user", {
       return new Promise((resolve, reject) => {
         getUserInfo()
           .then((respone) => {
-            console.log("respone.data.userInfo:", respone.data.userInfo);
             this.setUserInfo(respone.data.userInfo);
-            console.log("this.userInfo2:", this.userInfo);
             resolve(respone.data.userInfo);
           })
           .catch((err) => {
-            console.log(err);
-
             reject(err);
           });
       });
