@@ -53,7 +53,7 @@ func (i *initMenuAuthority) InitializeData(ctx context.Context) (next context.Co
 
 	// 8888 普通用户
 	menu8888 := menus[:2]
-	menu8888 = append(menu8888, menus[9])
+	menu8888 = append(menu8888, menus[8])
 	if err = db.Model(&authorities[1]).Association("SysBaseMenus").Replace(menu8888); err != nil {
 		return next, err
 	}
