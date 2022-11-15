@@ -11,6 +11,15 @@ import useStore from "@/stores/stores";
 import "element-plus/theme-chalk/index.css";
 import "@/style/element_visiable.scss";
 
+/**
+ * @description 导入加载进度条，防止首屏加载时间过长，用户等待
+ *
+ * */
+import Nprogress from "nprogress";
+import "nprogress/nprogress.css";
+Nprogress.configure({ showSpinner: false, ease: "ease", speed: 500 });
+Nprogress.start();
+
 const app = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
@@ -36,6 +45,7 @@ const getRouter = async () => {
 };
 
 router.beforeEach(async (to, from, next) => {
+  Nprogress.start();
   console.log("router.beforeEach: to ", to);
   to.meta.matched = [...to.matched];
   const { userStore } = useStore();
@@ -59,4 +69,14 @@ router.beforeEach(async (to, from, next) => {
       next(`/login?redirect=${to.path}`);
     }
   }
+});
+
+router.afterEach(() => {
+  // 路由加载完成后关闭进度条
+  Nprogress.done();
+});
+
+router.onError(() => {
+  // 路由发生错误后销毁进度条
+  Nprogress.remove();
 });
