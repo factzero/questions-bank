@@ -2,6 +2,7 @@ package system
 
 import (
 	v1 "server/api/v1"
+	"server/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,8 +10,8 @@ import (
 type UserRouter struct{}
 
 func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
-	userRouter := Router.Group("user")
-	userRouterWithoutRecord := Router.Group("user")
+	userRouter := Router.Group("user").Use(middleware.OperationRecord())
+	userRouterWithoutRecord := Router.Group("user").Use(middleware.OperationRecord())
 	baseApi := v1.ApiGroupApp.BaseApi
 	{
 		userRouter.POST("admin_register", baseApi.Register) // 管理员注册账号

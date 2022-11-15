@@ -9,11 +9,11 @@ import (
 type MenuRouter struct{}
 
 func (s *MenuRouter) InitMenuRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
-	menuRouter := Router.Group("menu")
+	menuRouterWithoutRecord := Router.Group("menu")
 	authorityMenuApi := v1.ApiGroupApp.AuthorityMenuApi
 	{
-		menuRouter.POST("getMenu", authorityMenuApi.GetMenu)
+		menuRouterWithoutRecord.POST("getMenu", authorityMenuApi.GetMenu)
 	}
 
-	return menuRouter
+	return menuRouterWithoutRecord
 }

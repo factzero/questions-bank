@@ -24,6 +24,7 @@ func RegisterTables(db *gorm.DB) {
 		system.SysUser{},
 		system.SysBaseMenu{},
 		system.SysAuthority{},
+		system.SysOperationRecord{},
 	)
 	if err != nil {
 		fmt.Println("register table failed")

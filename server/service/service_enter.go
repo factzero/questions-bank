@@ -5,6 +5,7 @@ type ServiceGroup struct {
 	InitDBService
 	AuthorityService
 	MenuService
+	OperationRecordService
 }
 
 var ServiceGroupApp = new(ServiceGroup)

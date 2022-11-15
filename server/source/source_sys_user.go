@@ -92,9 +92,9 @@ func (i *initUser) DataInserted(ctx context.Context) bool {
 		return false
 	}
 	var record sysModel.SysUser
-	if errors.Is(db.Where("username = ?", "test").
+	if errors.Is(db.Where("username = ?", "admin").
 		Preload("Authorities").First(&record).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}
-	return len(record.Authorities) > 0 && record.Authorities[0].AuthorityId == 6666
+	return len(record.Authorities) > 0 && record.Authorities[0].AuthorityId == 9999
 }
