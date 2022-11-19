@@ -1,6 +1,7 @@
 package config
 
 type CfgSystem struct {
-	Addr   int    `mapstructure:"addr" json:"addr" yaml:"addr"`       // 端口值
-	DbType string `mapstructure:"dbtype" json:"dbtype" yaml:"dbtype"` // 数据库类型:mysql
+	Addr    int    `mapstructure:"addr" json:"addr" yaml:"addr"`           // 端口值
+	DbType  string `mapstructure:"dbtype" json:"dbtype" yaml:"dbtype"`     // 数据库类型:mysql
+	OssType string `mapstructure:"oss-type" json:"osstype" yaml:"osstype"` // Oss类型
 }

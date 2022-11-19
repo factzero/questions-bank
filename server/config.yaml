@@ -1,30 +1,28 @@
-# system configuration
-system:
-  addr: 6000
-  dbtype: mysql
-
-# captcha configuration
 captcha:
-  keyLong: 6
-  imgWidth: 240
-  imgHeight: 80
-
-# jwt configuration
+    keylong: 6
+    imgwidth: 240
+    imgheight: 80
 jwt:
-  signingkey: zero
-  expirestime: 7d
-  buffertime: 1d
-  issuer: zero
-
-# mysql connect configuration
+    signingkey: f7bed9e6-bfdd-4ceb-bdf7-220cd85a26b1
+    expirestime: 1d
+    buffertime: 1d
+    issuer: zero
+local:
+    path: ./uploads/file
+    storepath: ./uploads/file
 mysql:
-  path: "localhost"
-  port: "3306"
-  config: "parseTime=True"
-  dbname: "questionsbank"
-  username: "root"
-  password: "123456"
-  maxidleconns: 10
-  maxopenconns: 100
-  logmode: ""
-  logzap: false
+    path: 127.0.0.1
+    port: "3306"
+    config: charset=utf8mb4&parseTime=True&loc=Local
+    dbname: questionsbank
+    username: root
+    password: "123456"
+    engine: ""
+    maxidleconns: 10
+    maxopenconns: 100
+    logmode: error
+    logzap: false
+system:
+    addr: 6000
+    dbtype: mysql
+    osstype: ""

@@ -52,8 +52,10 @@ func (i *initMenu) InitializeData(ctx context.Context) (next context.Context, er
 		{MenuLevel: 0, Hidden: false, ParentId: "8", Path: "system", Name: "system", Component: "view/systemTools/system/system.vue", Sort: 3, Meta: Meta{Title: "系统配置", Icon: "operation"}},
 		{MenuLevel: 0, Hidden: false, ParentId: "0", Path: "https://www.gin-vue-admin.com", Name: "https://www.gin-vue-admin.com", Component: "/", Sort: 0, Meta: Meta{Title: "官方网站", Icon: "home-filled"}},
 		{MenuLevel: 0, Hidden: false, ParentId: "0", Path: "state", Name: "state", Component: "view/system/state.vue", Sort: 8, Meta: Meta{Title: "服务器状态", Icon: "cloudy"}},
-		{MenuLevel: 0, Hidden: false, ParentId: "0", Path: "exam", Name: "exam", Component: "view/dashboard/dashboard.vue", Sort: 1, Meta: Meta{Title: "试卷管理", Icon: "document"}},
-		{MenuLevel: 0, Hidden: false, ParentId: "0", Path: "item", Name: "itemBank", Component: "view/dashboard/dashboard.vue", Sort: 1, Meta: Meta{Title: "试题管理", Icon: "management"}},
+		{MenuLevel: 0, Hidden: false, ParentId: "0", Path: "exam", Name: "exam", Component: "view/exam/exam.vue", Sort: 1, Meta: Meta{Title: "试卷管理", Icon: "document"}},
+		{MenuLevel: 0, Hidden: false, ParentId: "0", Path: "item", Name: "itemBank", Component: "view/itemBank/itemBank.vue", Sort: 1, Meta: Meta{Title: "试题管理", Icon: "management"}},
+		{MenuLevel: 0, Hidden: false, ParentId: "12", Path: "summary", Name: "summary", Component: "view/itemBank/summary/summary.vue", Sort: 2, Meta: Meta{Title: "题库汇总", Icon: "notebook"}},
+		{MenuLevel: 0, Hidden: false, ParentId: "12", Path: "upload", Name: "upload", Component: "view/itemBank/upload/upload.vue", Sort: 2, Meta: Meta{Title: "试题上传", Icon: "upload"}},
 	}
 	if err = db.Create(&entities).Error; err != nil {
 		return ctx, errors.Wrap(err, SysBaseMenu{}.TableName()+"表数据初始化失败!")

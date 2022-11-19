@@ -18,10 +18,11 @@ func Routers() *gin.Engine {
 	PrivateGroup := r.Group("/api/v1")
 	PrivateGroup.Use(middleware.JWTAuth())
 	{
-		systemRouter.InitMenuRouter(PrivateGroup)               // 注册菜单路由
-		systemRouter.InitUserRouter(PrivateGroup)               // 注册用户路由
-		systemRouter.InitAuthorityRouter(PrivateGroup)          // 注册角色路由
-		systemRouter.InitSysOperationRecordRouter(PrivateGroup) // 操作记录
+		systemRouter.InitMenuRouter(PrivateGroup)                  // 注册菜单路由
+		systemRouter.InitUserRouter(PrivateGroup)                  // 注册用户路由
+		systemRouter.InitAuthorityRouter(PrivateGroup)             // 注册角色路由
+		systemRouter.InitSysOperationRecordRouter(PrivateGroup)    // 操作记录
+		systemRouter.InitFileUploadAndDownloadRouter(PrivateGroup) // 文件上传下载功能路由
 	}
 
 	return r

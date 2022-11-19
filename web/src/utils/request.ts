@@ -14,11 +14,15 @@ const service = axios.create({
 service.interceptors.request.use(
   function (config) {
     const { userStore } = useStore();
+    var contentType = "application/json";
+    if (config.url === "/api/v1/fileUploadAndDownload/upload") {
+      contentType = "multipart/form-data";
+    }
     config.headers = {
-      "Content-Type": "application/json",
+      ...config.headers,
+      "Content-Type": contentType,
       "x-token": userStore.token,
       "x-user-id": userStore.userInfo.uuid,
-      ...config.headers,
     };
     return config;
   },
