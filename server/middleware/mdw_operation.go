@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"path"
 	"strconv"
 	"strings"
 	"sync"
@@ -76,12 +77,22 @@ func OperationRecord() gin.HandlerFunc {
 
 		// 上传文件时候 中间件日志进行裁断操作
 		if strings.Contains(c.GetHeader("Content-Type"), "multipart/form-data") {
-			if len(record.Body) > 1024 {
-				// 截断
-				newBody := respPool.Get().([]byte)
-				copy(newBody, record.Body)
-				record.Body = string(newBody)
-				defer respPool.Put(newBody[:0])
+			_, header, err := c.Request.FormFile("file")
+			if err == nil {
+				ext := path.Ext(header.Filename)
+				if ext == ".pdf" {
+					record.Body = ""
+				} else {
+					if len(record.Body) > 1024 {
+						// 截断
+						newBody := respPool.Get().([]byte)
+						copy(newBody, record.Body)
+						record.Body = string(newBody)
+						defer respPool.Put(newBody[:0])
+					}
+				}
+			} else {
+				record.Body = ""
 			}
 		}
 

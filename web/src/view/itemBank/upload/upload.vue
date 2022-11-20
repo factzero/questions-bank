@@ -4,9 +4,8 @@
       action="#"
       accept=".pdf, .excel"
       :http-request="uploadFile"
-      :limit="3"
       :on-exceed="handleExceed"
-      :on-success="getTableData"
+      :show-file-list="false"
     >
       <el-button type="primary">Click to upload</el-button>
       <template #tip>
@@ -89,7 +88,7 @@ const uploadFile = (params: any) => {
   form.append("file", file);
   uploadFileApi(form)
     .then((res) => {
-      console.log("uploadFileApi res ", res);
+      getTableData();
     })
     .catch((err) => {
       console.log("catch ", err);
@@ -123,7 +122,7 @@ const getTableData = async () => {
     page.value = table.data.page;
     pageSize.value = table.data.pageSize;
   }
-  console.log("tableData:", tableData);
+  console.log("tableData:", tableData.value);
 };
 getTableData();
 

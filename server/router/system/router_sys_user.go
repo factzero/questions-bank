@@ -11,7 +11,7 @@ type UserRouter struct{}
 
 func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	userRouter := Router.Group("user").Use(middleware.OperationRecord())
-	userRouterWithoutRecord := Router.Group("user").Use(middleware.OperationRecord())
+	userRouterWithoutRecord := Router.Group("user")
 	baseApi := v1.ApiGroupApp.BaseApi
 	{
 		userRouter.POST("admin_register", baseApi.Register) // 管理员注册账号
