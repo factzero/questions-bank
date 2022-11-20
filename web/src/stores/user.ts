@@ -58,7 +58,7 @@ const useUserStore = defineStore("user", {
         window.location.reload();
       });
     },
-    /* 获取用户信息 */
+    /* 鑾峰彇鐢ㄦ埛淇℃伅 */
     GetUserInfo() {
       return new Promise((resolve, reject) => {
         getUserInfo()
@@ -71,7 +71,7 @@ const useUserStore = defineStore("user", {
           });
       });
     },
-    /* 清理数据 */
+    /* 娓呯悊鏁版嵁 */
     ClearStorage() {
       this.token = "";
       sessionStorage.clear();

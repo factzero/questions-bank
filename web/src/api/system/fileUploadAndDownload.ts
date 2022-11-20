@@ -23,3 +23,11 @@ export const deleteFile = (data: any) => {
     data: data,
   });
 };
+
+export const editFileName = (data: any) => {
+  return request({
+    url: "/api/v1/fileUploadAndDownload/editFileName",
+    method: "post",
+    data: data,
+  });
+};

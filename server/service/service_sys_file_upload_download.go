@@ -66,7 +66,7 @@ func (e *FileUploadAndDownloadService) DeleteFile(file system.FileUploadAndDownl
 	}
 	oss := upload.NewOss()
 	if err = oss.DeleteFile(fileFromDb.Key); err != nil {
-		return errors.New("ÎÄ¼þÉ¾³ýÊ§°Ü")
+		return errors.New("æ–‡ä»¶åˆ é™¤å¤±è´¥")
 	}
 	err = global.GVA_DB.Where("id = ?", file.ID).Unscoped().Delete(&file).Error
 	return err
