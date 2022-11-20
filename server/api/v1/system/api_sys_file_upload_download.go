@@ -2,6 +2,7 @@ package system
 
 import (
 	"fmt"
+	"server/model/common/request"
 	"server/model/common/response"
 	"server/model/system"
 	systemRes "server/model/system/response"
@@ -27,4 +28,40 @@ func (b *FileUploadAndDownloadApi) UploadFile(c *gin.Context) {
 		return
 	}
 	response.OkWithDetailed(systemRes.FileResponse{File: file}, "上传成功", c)
+}
+
+func (b *FileUploadAndDownloadApi) GetFileList(c *gin.Context) {
+	var pageInfo request.PageInfo
+	err := c.ShouldBindJSON(&pageInfo)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	list, total, err := fileUploadAndDownloadService.GetFileRecordInfoList(pageInfo)
+	if err != nil {
+		fmt.Println("获取失败!", err.Error())
+		response.FailWithMessage("获取失败", c)
+		return
+	}
+	response.OkWithDetailed(response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     pageInfo.Page,
+		PageSize: pageInfo.PageSize,
+	}, "获取成功", c)
+}
+
+func (b *FileUploadAndDownloadApi) DeleteFile(c *gin.Context) {
+	var file system.FileUploadAndDownload
+	err := c.ShouldBindJSON(&file)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := fileUploadAndDownloadService.DeleteFile(file); err != nil {
+		fmt.Println("删除失败!", err.Error())
+		response.FailWithMessage("删除失败", c)
+		return
+	}
+	response.OkWithMessage("删除成功", c)
 }

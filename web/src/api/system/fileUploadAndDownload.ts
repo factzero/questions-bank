@@ -7,3 +7,19 @@ export const uploadFileApi = (data: any) => {
     data: data,
   });
 };
+
+export const getFileList = (data: any) => {
+  return request({
+    url: "/api/v1/fileUploadAndDownload/getFileList",
+    method: "post",
+    data: data,
+  });
+};
+
+export const deleteFile = (data: any) => {
+  return request({
+    url: "/api/v1/fileUploadAndDownload/deleteFile",
+    method: "post",
+    data: data,
+  });
+};
