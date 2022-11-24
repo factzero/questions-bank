@@ -4,21 +4,17 @@ import type { RouteRecordRaw } from "vue-router";
 // 静态路由
 const routes = [
   {
+    path: "/",
+    redirect: "/login",
+  },
+  {
     path: "/login",
     name: "Login",
     component: () => import("@/view/login/login.vue"),
   },
   {
-    path: "/",
-    name: "Layout",
-    component: () => import("@/view/layout/layout.vue"),
-    redirect: "/layout/dashboard",
-    children: [
-      {
-        path: "dashboard",
-        component: () => import("@/view/dashboard/dashboard.vue"),
-      },
-    ],
+    path: "/:catchAll(.*)",
+    component: () => import("@/view/errors/404.vue"),
   },
 ];
 

@@ -32,7 +32,7 @@ app.use(ElementPlus, { locale: zhCn });
 app.mount("#app");
 
 // 白名单路由
-const whiteList = ["/login"];
+const whiteList = ["Login"];
 let asyncRouterFlag = 0;
 
 const getRouter = async () => {
@@ -51,7 +51,7 @@ router.beforeEach(async (to, from, next) => {
   const { userStore } = useStore();
   const hasToken = userStore.token;
   if (hasToken) {
-    if (!asyncRouterFlag && whiteList.indexOf(from.name) < 0) {
+    if (!asyncRouterFlag && whiteList.indexOf(to.name) < 0) {
       asyncRouterFlag++;
       await getRouter();
       if (userStore.token) {
@@ -63,7 +63,7 @@ router.beforeEach(async (to, from, next) => {
       next();
     }
   } else {
-    if (whiteList.indexOf(to.path) !== -1) {
+    if (whiteList.indexOf(to.name) !== -1) {
       next();
     } else {
       next(`/login?redirect=${to.path}`);

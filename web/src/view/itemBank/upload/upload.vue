@@ -122,7 +122,6 @@ const getTableData = async () => {
     page.value = table.data.page;
     pageSize.value = table.data.pageSize;
   }
-  console.log("tableData:", tableData.value);
 };
 getTableData();
 
